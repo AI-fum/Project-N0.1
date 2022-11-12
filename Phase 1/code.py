@@ -1,3 +1,6 @@
+import numpy as np
+import pandas as pd
+
 class table:
     def __init__(self, Rows, Columns, Matrix, dataframe):
         self.Rows = Rows
