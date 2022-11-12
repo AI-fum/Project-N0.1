@@ -1,12 +1,16 @@
 class table:
-    def __init__(self, Rows, Columns, Matrix):
+    def __init__(self, Rows, Columns, Matrix, dataframe):
         self.Rows = Rows
         self.Columns = Columns
         self.Matrix = Matrix
         
     def setdf(self):
-        df = pd.DataFrame(self.Matrix)
+        self.dataframe = pd.DataFrame(self.Matrix)
         #return df
+        
+    def printdf(self):
+        self.setdf()
+        return self.dataframe
         
         
 # An example code to take matrix input by user  
@@ -27,5 +31,6 @@ for i in range(Rows):
 #print(example_matrix)  
 
 
-t1 = table(Rows, Columns, example_matrix)
-t1.setdf()
+t1 = table(Rows, Columns, example_matrix, "")
+#t1.setdf()
+t1.printdf()
