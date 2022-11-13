@@ -1,9 +1,9 @@
 ## functions that we need:
-- get matrix from user.
-- costructor.
-- convert matrix to df by pandas.
-- replace sub-chars and make new df.
-- convert df to int-df or numpy matrix.
+- get matrix from user.🙋‍
+- costructor.🙋‍
+- convert matrix to df by pandas.🙋‍
+- replace sub-chars and make new df.🙋‍
+- convert df to int-df or numpy matrix.🙋‍
 - find butters index.
 - find robot index.
 - find target index.
