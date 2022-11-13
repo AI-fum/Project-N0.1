@@ -29,7 +29,7 @@ for i in range(Rows):
     # appending the 'single_row' to the 'example_matrix'  
     matrix.append(single_row)  
 # printing the matrix given by user  
-#print(example_matrix)  
+#print(matrix)  
 
 
 t1 = table(Rows, Columns, matrix, "")
