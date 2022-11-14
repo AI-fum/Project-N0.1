@@ -1,3 +1,4 @@
+```
 DFS(graph, start_node, end_node):
     frontier = new Stack()
     frontier.push(start_node)
@@ -10,3 +11,4 @@ DFS(graph, start_node, end_node):
         for neighbor in graph.get_neigbhors(current_node):
             frontier.push(neighbor)
         explored.add(current_node)
+```
