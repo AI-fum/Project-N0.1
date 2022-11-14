@@ -13,19 +13,20 @@ class table:
         self.setdf()
         return self.dataframe
     
-    def strtoint(self):
-        df = self.printdf()
-        for i in range (0,self.Rows):
-            df[i] = df[i].astype(int)
-            
-        #print(self.dataframe.dtypes)
-            
-        return df
     
     def arrangedf(self):
         df = self.printdf()
         for i in range (0,self.Rows):
             df[i] = df[i].replace('x', 9999)
+            
+        return df
+    
+    def strtoint(self):
+        df = self.arrangedf()
+        for i in range (0,self.Rows):
+            df[i] = df[i].astype(int)
+            
+        #print(self.dataframe.dtypes)
             
         return df
     
@@ -45,6 +46,7 @@ class table:
     def dfs(self, row, col, tr, tc):
         self.setdf()
         self.dataframe = self.arrangedf()
+        #print(self.dataframe)
         self.dataframe = self.strtoint()
         dRow = [0, 1, 0, -1]
         dCol = [-1, 0, 1, 0]
