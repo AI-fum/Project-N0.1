@@ -66,3 +66,41 @@ if __name__ == '__main__':
 
     # Function call
     dfs(0, 0, grid, 2, 1)
+    
+    
+    # BBBBBBBBBBBBBBBBBBLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOOBBBBBBBBBBBBBLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOO
+    
+    class table:
+    def __init__(self, Rows, Columns, Matrix, dataframe, vis):
+        self.Rows = Rows
+        self.Columns = Columns
+        self.Matrix = Matrix
+        self.vis = [[False for i in range(Rows)] for j in range(Columns)]
+        
+    def setdf(self):
+        self.dataframe = pd.DataFrame(self.Matrix)
+        #return df
+        
+    def printdf(self):
+        self.setdf()
+        return self.dataframe
+    
+    def arrangedf(self):
+        df = self.printdf()
+        for i in range (0,self.Rows):
+            df[i] = df[i].replace('x', 9999)
+            
+        return df
+    
+    def isValid(self, row, col, matrix):
+    if (row < 0 or col< 0 or row >= self.Rows or col >= self.Columns  or matrix[row][col]>100):
+        return False
+    if (self.vis[row][col]):
+        return False
+    return True
+
+    def finish(row, col, tr, tc):
+        if(row == tr and col == tc):
+            return True
+        else:
+            return False
