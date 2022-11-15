@@ -5,44 +5,75 @@ class table:
         self.Matrix = Matrix
         self.vis = [[False for i in range(Rows)] for j in range(Columns)]
         
+    #main costructors:
     def setdf(self):
         self.dataframe = pd.DataFrame(self.Matrix)
-        #return df
-        
+        #return df  
     def printdf(self):
         self.setdf()
         return self.dataframe
-    
-    
     def arrangedf(self):
         df = self.printdf()
-        for i in range (0,self.Rows):
-            df[i] = df[i].replace('x', 9999)
-            
+        for i in range (0,self.Rows): 
+            df[i] = df[i].str.replace('r', "")
+            df[i] = df[i].str.replace('p', "")
+            df[i] = df[i].str.replace('b', "")
+            df[i] = df[i].replace('x', 9999)  
+                        
         return df
     
     def strtoint(self):
         df = self.arrangedf()
         for i in range (0,self.Rows):
-            df[i] = df[i].astype(int)
-            
-        #print(self.dataframe.dtypes)
-            
+            df[i] = df[i].astype(int)        
+        #print(self.dataframe.dtypes) 
         return df
     
-    def isValid(self, row, col, matrix):
-        if (row < 0 or col< 0 or row >= self.Rows or col >= self.Columns  or matrix[row][col]>100):
+    #index:
+    def robotindex(self):
+        for i in range(self.Rows):
+            for j in range(self.Columns):
+                if "r" in self.Matrix[i][j]:
+                    return ([i, j])
+    def targetindex(self):
+        for i in range(self.Rows):
+            for j in range(self.Columns):
+                if "p" in self.Matrix[i][j]:
+                    return ([i, j])
+        
+    
+    #DFS PART:
+    #checking...
+    
+    def isCorner(self, row, col):
+        if(row == 0 or row == self.Rows-1 or col == 0 or col == self.Columns-1):
+            return True
+        else:
             return False
+        
+        
+    def isValid(self, row, col, matrix):
+        target_index= self.targetindex()
+        rtarget = target_index[0]
+        ctarget = target_index[1]
+        if(self.isCorner(rtarget, ctarget)):
+            if (row < 0 or col< 0 or row >= self.Rows or col >= self.Columns  or matrix[row][col]>100):
+                return False
+        else:
+            if (row <= 0 or col<= 0 or row >= self.Rows-1 or col >= self.Columns-1  or matrix[row][col]>100):
+                return False
         if (self.vis[row][col]):
             return False
         return True
-
+        
+        
     def finish(self, row, col, tr, tc):
         if(row == tr and col == tc):
             return True
         else:
             return False
-        
+    
+    #mai functions:  
     def dfs(self, row, col, tr, tc):
         self.setdf()
         self.dataframe = self.arrangedf()
