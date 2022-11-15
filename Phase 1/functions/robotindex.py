@@ -1,5 +1,6 @@
-    def robotindex(self):
-        for i in range(self.Rows):
-            for j in range(self.Columns):
-                if "r" in self.Matrix[i][j]:
-                    return ([i, j])
+# a function which returns index of the robot
+def robotIndex(matrix, Rows, Columns):
+    for i in range(Rows):
+        for j in range(Columns):
+            if "r" in matrix[i][j]:
+                print(i, j)
