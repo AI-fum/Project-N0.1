@@ -1,190 +1,140 @@
-class table:
-    def __init__(self, Rows, Columns, Matrix, dataframe, vis):
-        self.Rows = Rows
-        self.Columns = Columns
-        self.Matrix = Matrix
-        self.vis = [[False for i in range(Rows)] for j in range(Columns)]
+from collections import deque
+
+# to keep track of the blocks of maze
+class Grid_Position:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+# each block will have its own position and cost of steps taken
+class Node:
+    def __init__(self, pos: Grid_Position, cost):
+        self.pos = pos
+        self.cost = cost
+
+
+#BFS algo for the maze
+def bfs(Grid, dest: Grid_Position, start: Grid_Position):
+    # to get neighbours of current node
+    adj_cell_x = [-1, 0, 0, 1]
+    adj_cell_y = [0, -1, 1, 0]
+    m, n = (len(Grid), len(Grid))
+    visited_blocks = [[False for i in range(m)]
+                for j in range(n)]
+    visited_blocks[start.x][start.y] = True
+    queue = deque()
+    sol = Node(start, 0)
+    queue.append(sol)
+    cells = 4
+    cost = 0
+    while queue:
+        current_block = queue.popleft()  # Dequeue the front cell
+        current_pos = current_block.pos
+        if current_pos.x == dest.x and current_pos.y == dest.y:
+            print("Algorithm used = BFS")
+            print("Path found!!")
+            print("Total nodes visited = ", cost)
+            return current_block.cost
         
-    #main costructors:
-    def setdf(self):
-        self.dataframe = pd.DataFrame(self.Matrix)
-        #return df  
-    def printdf(self):
-        self.setdf()
-        return self.dataframe
-    def arrangedf(self):
-        df = self.printdf()
-        for i in range (0,self.Rows): 
-            df[i] = df[i].str.replace('r', "")
-            df[i] = df[i].str.replace('p', "")
-            df[i] = df[i].str.replace('b', "")
-            df[i] = df[i].replace('x', 999)  
-                        
-        return df
-    
-    def strtoint(self):
-        df = self.arrangedf()
-        for i in range (0,self.Rows):
-            df[i] = df[i].astype(int)        
-        #print(self.dataframe.dtypes) 
-        return df
-    
-    #index:
-    def robotindex(self):
-        for i in range(self.Rows):
-            for j in range(self.Columns):
-                if "r" in self.Matrix[i][j]:
-                    return ([i, j])
-                
-                
-    def targetIndexes(self):
-        """A function which returns index(es) of target(s)."""
+        if current_block not in visited_blocks:
+            visited_blocks[current_pos.x][current_pos.y] = True
+            cost = cost + 1
+        x_pos = current_pos.x
+        y_pos = current_pos.y
+        for i in range(cells):
+            if x_pos == len(Grid) - 1 and adj_cell_x[i] == 1:
+                x_pos = current_pos.x
+                y_pos = current_pos.y + adj_cell_y[i]
+            if y_pos == 0 and adj_cell_y[i] == -1:
+                x_pos = current_pos.x + adj_cell_x[i]
+                y_pos = current_pos.y
+            else:
+                x_pos = current_pos.x + adj_cell_x[i]
+                y_pos = current_pos.y + adj_cell_y[i]
+            if x_pos < 12 and y_pos < 12 and x_pos >= 0 and y_pos >= 0:
+                if Grid[x_pos][y_pos] == 1:
+                    if not visited_blocks[x_pos][y_pos]:
+                        next_cell = Node(Grid_Position(x_pos, y_pos),
+                                       current_block.cost + 1)
+                        visited_blocks[x_pos][y_pos] = True
+                        queue.append(next_cell)
+    return -1
 
-        target_list = []
-        for i in range(self.Rows):
-            for j in range(self.Columns):
-                if "p" in self.Matrix[i][j]:
-                    target_list.append([i, j])
-                    
-        return target_list
+def create_node(x, y, c):
+    val = Grid_Position(x, y)
+    return Node(val, c + 1)
 
-
-    def butterIndexes(self):
-        """A function which returns index(es) of butter(s)."""
-
-        butter_list = []
-        for i in range(self.Rows):
-            for j in range(self.Columns):
-                if "b" in self.Matrix[i][j]:
-                    butter_list.append([i, j])
-        return butter_list
-        
-    
-    #DFS PART:
-    #checking...
-    
-    def isCorner(self, row, col):
-        if(row == 0 | row == self.Rows-1 | col == 0 | col == self.Columns-1):
-            return True
-        else:
-            return False
-        
-    
-    def isValid(self, row, col, matrix):
-        ROW = self.Rows
-        COL = self.Columns
-        vis = self.vis
-
-        # If cell is out of bounds
-        if (row < 0 or col < 0 or row >= ROW or col >= COL):
-            return False
-
-        # If the cell is already visited
-        if (vis[row][col]):
-            return False
-
-        # Otherwise, it can be visited
-        return True
-
-        # Otherwise, it can be visited
-        return True
-        
-        
-    def finish(self, row, col, tr, tc):
-        if(row == tr & col == tc):
-            return True
-        else:
-            return False
-    
-    #mai functions:  
-    def dfs(self, row, col, tr, tc):
-        print("start state: ",row,col)
-        print("target state: ",tr,tc)
-        
-        dRow = [0, 1, 0, -1]
-        dCol = [-1, 0, 1, 0]
-        
-        df = self.strtoint()
-        st = []
-        st.append([row, col])
-        
-        #print(self.vis)
-        while (len(st) > 0):
-            # Pop the top pair
-            curr = st[len(st) - 1]
-            st.remove(st[len(st) - 1])
-            row = curr[0]
-            col = curr[1]
-            print(curr)
-            # Check if the current popped
-            # cell is a valid cell or not
-            if (self.isValid(row, col, df) == False):
-                continue
-
-            # Mark the current
-            # cell as visited
-            self.vis[row][col] = True
-            #print(self.vis)
-            # Print the element at
-            # the current top cell
-            print(df[row][col], end = " ")
-
-            # Push all the adjacent cells
-            for i in range(4):
-                adjx = row + dRow[i]
-                adjy = col + dCol[i]
-                st.append([adjx, adjy])
-                
-                
-    def printpath(self, row, col, tr, tc):
-        saver = 0
-        savec = 0
-        self.setdf()
-        self.dataframe = self.arrangedf()
-        #print(self.dataframe)
-        self.dataframe = self.strtoint()
-        dRow = [0, 1, 0, -1]
-        dCol = [-1, 0, 1, 0]
-        st = []
-        st.append([row, col])
-        while (len(st) > 0):
-            curr = st[len(st) - 1]
-            st.remove(st[len(st) - 1])
-            row = curr[0]
-            col = curr[1]
-            if (self.isValid(row, col, self.dataframe) == False):
-                #print(curr)
-                #print(row, end = ",")
-                #print(col, end = " ")
-                continue
+#dfs algo for maze
+def dfs(Grid, dest: Grid_Position, start: Grid_Position):
+    adj_cell_x = [1, 0, 0, -1]
+    adj_cell_y = [0, 1, -1, 0]
+    m, n = (len(Grid), len(Grid))
+    visited_blocks = [[False for i in range(m)]for j in range(n)]
+    visited_blocks[start.x][start.y] = True
+    stack = deque()
+    sol = Node(start, 0)
+    stack.append(sol)
+    neigh = 4
+    neighbours = []
+    cost = 0
+    while stack:
+        current_block = stack.pop()
+        current_pos = current_block.pos
+        if current_pos.x == dest.x and current_pos.y == dest.y:
+            print("Algorithm used = DFS")
+            print("Path found!!")
+            print("Total nodes visited = ", cost)
+            return current_block.cost
+        x_pos = current_pos.x
+        y_pos = current_pos.y
+     
+        for i in range(neigh):
+            if x_pos == len(Grid) - 1 and adj_cell_x[i] == 1:
+                x_pos = current_pos.x
+                y_pos = current_pos.y + adj_cell_y[i]
+            if y_pos == 0 and adj_cell_y[i] == -1:
+                x_pos = current_pos.x + adj_cell_x[i]
+                y_pos = current_pos.y
+            else:
+                x_pos = current_pos.x + adj_cell_x[i]
+                y_pos = current_pos.y + adj_cell_y[i]
+            if x_pos != 12 and x_pos != -1 and y_pos != 12 and y_pos != -1:
+                if Grid[x_pos][y_pos] > 0:
+                    if not visited_blocks[x_pos][y_pos]:
+                        cost += Grid[x_pos][y_pos]
+                        visited_blocks[x_pos][y_pos] = True
+                        stack.append(create_node(x_pos, y_pos, current_block.cost))
+    return -1
 
 
-            self.vis[row][col] = True
-            #print(row-saver, end = ",")
-            #print(col-savec, end = " ")
-            
-            if(row-saver == 0):
-                if(col-savec == 0):
-                    print("stay", end =", ")
-                if(col-savec == 1):
-                    print("down", end =", ")
-                if(col-savec == -1):
-                    print("up", end =", ")
-            if(col-savec == 0):
-                if(row-saver == 0):
-                    print("stay", end =", ")
-                if(row-saver == 1):
-                    print("right", end =", ")
-                if(row-saver == -1):
-                    print("left", end =", ")
-                    
-            saver = row
-            savec = col
-            for i in range(4):
-                adjx = row + dRow[i]
-                adjy = col + dCol[i]
-                st.append([adjx, adjy])
-            if(self.finish(row, col, tr, tc)):
-                break
-                
-            
+def main():
+    maze = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0],
+            [0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1],
+            [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            [0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            [0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+            [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    destination = Grid_Position(10, 0)
+    starting_position = Grid_Position(4, 11)
+    res = bfs(maze, destination, starting_position)
+    if res != -1:
+        print("Shortest path steps = ", res)
+    else:
+        print("Path does not exit")
+
+    print()
+    res2 = dfs(maze, destination, starting_position)
+    if res2 != -1:
+        print("Steps with backtracking = ", res2)
+    else:
+        print("Path does not exit")
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    print("main start\n")
+    main()
