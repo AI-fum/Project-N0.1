@@ -30,3 +30,5 @@ https://stackoverflow.com/questions/8585897/why-does-indexof-return-1
 https://stackoverflow.com/questions/34472814/use-a-any-or-a-all
 
 https://www.geeksforgeeks.org/python-any-function/
+
+https://www.geeksforgeeks.org/python-list-index/#:~:text=Python%20index()%20is%20an,index%20of%20the%20first%20occurrence.
