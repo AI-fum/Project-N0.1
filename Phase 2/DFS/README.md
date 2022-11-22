@@ -22,3 +22,11 @@ DFS(graph, start_node, end_node):
 https://stackoverflow.com/questions/5775352/python-return-2-ints-for-index-in-2d-lists-given-item
 
 https://www.tutorialspoint.com/python/list_min.htm
+
+https://stackoverflow.com/questions/10406130/check-if-something-is-not-in-a-list-in-python
+
+https://stackoverflow.com/questions/8585897/why-does-indexof-return-1
+
+https://stackoverflow.com/questions/34472814/use-a-any-or-a-all
+
+https://www.geeksforgeeks.org/python-any-function/
