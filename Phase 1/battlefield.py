@@ -1,29 +1,26 @@
 class Battlefield:
-
     #map_array
     matrix: list[list[str]]
-    
     points: list[tuple[int, int]]
-
-    def __init__(self, h: int, w: int, matrix=[]):
+    def __init__(self, height: int, width: int, matrix=[]):
         self.map = matrix
-        self.w = w
-        self.h = h
+        self.width = width
+        self.height = height
         self.points = []
 
     def check_out_of_bounds(self, y: int, x: int) -> bool:
-        return x >= self.w or x < 0 or y >= self.h or y < 0
+        return x >= self.width or x < 0 or y >= self.height or y < 0
 
     def is_block(self, y: int, x: int):
-        return self.map[y][x].lower() == 'x'
+        return self.battlefield.[y][x].lower() == 'x'
 
     def set_points(self, points):
         self.points = points
 
     def get_item(self, y, x) -> str:
-        return self.map[y][x]
+        return self.battlefield.[y][x]
 
     def append_row(self, row: list[str]) -> None:
-        if len(row) != self.w:
+        if len(row) != self.width:
             raise ValueError('Invalid size of columns in this row:\n', str(row))
-        self.map.append(row)
+        self.battlefield.append(row)
