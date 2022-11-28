@@ -4,7 +4,7 @@ class Battlefield:
     matrix: list[list[str]]
     points: list[tuple[int, int]]
     def __init__(self, height: int, width: int, matrix=[]):
-        self.map = matrix
+        self.battlefield = matrix
         self.width = width
         self.height = height
         self.points = []
