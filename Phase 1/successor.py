@@ -65,22 +65,23 @@ class State:
                 ))
             else:  # There is a butter around
                 # Butter not on bound condition
-                if (y == -1 and robot_y != 1) or (y == 1 and robot_y != h - 2) or \
-                        (x == -1 and robot_x != 1) or (x == 1 and robot_x != w - 2):
+                if (y == -1 and robot_y != 1) or (y == 1 and robot_y != height - 2) or \
+                        (x == -1 and robot_x != 1) or (x == 1 and robot_x != width - 2):
 
                     # If butter is on a point
                     if (robot_y + y, robot_x + x) in points:
                         return
 
                     # if there is block or another butter behind the butter
-                    r2y, r2x = robot_y + 2 * y, robot_x + 2 * x
-                    if battlefield_object.is_block(r2y, r2x) or ((r2y, r2x) in state.butters):
+                    y2 = robot_y + 2 * y
+                    x2 = robot_x + 2 * x
+                    if battlefield_object.is_block(y2, x2) or ((y2, x2) in state.butters):
                         return
 
                     # Moving butter
                     new_butters = state.butters.copy()
                     new_butters.remove((robot_y + y, robot_x + x))
-                    new_butters.append((r2y, r2x))
+                    new_butters.append((y2, x2))
                     next_states.append((
                         State((robot_y + y, robot_x + x), new_butters),
                         (y, x),
