@@ -13,8 +13,8 @@ class Battlefield:
     def check_out(self, y: int, x: int) -> bool:
         return x >= self.width or x < 0 or y >= self.height or y < 0
     
-    #This function detects obstacles in the battlefield:
-    def is_block(self, y: int, x: int):
+    #This function detects barriers in the battlefield:
+    def is_barrier(self, y: int, x: int):
         return self.battlefield.[y][x].lower() == 'x'
 
     def set_points(self, points):
