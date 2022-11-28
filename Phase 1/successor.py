@@ -1,6 +1,5 @@
 from battlefield import Battlefield
 
-
 class State:
     #Constructor function:
     def __init__(self, robot: tuple, butters=[]):
@@ -47,6 +46,20 @@ class State:
             #Diagonal movement is not allowed
             if x * y != 0:
                 raise Exception('Unfortunately, you cannot move diagonally:(')
+            """
+            Authorized transfers:
+            (1, 0) Down
+            (-1,0) Up
+            (0, 1) Right
+            (0,-1) Left
+            y*x = 0
+            Unauthorized transfers:
+            ( 1, 1)
+            (-1, 1)
+            ( 1,-1)
+            (-1,-1)
+            y*x != 0
+            """
 
             #The element is not allowed to leave the battlefield.
             if battlefield_object.check_out(robot_y + y, robot_x + x):
@@ -56,11 +69,11 @@ class State:
             if battlefield_object.is_barrier(robot_y + y, robot_x + x):
                 return
 
-            # Checking if there is a butter around
-            if (robot_y + y, robot_x + x) not in state.butters:  # There is no butters around
-                nexts.append((
-                    State((robot_y + y, robot_x + x), state.butters.copy()),
-                    (y, x),
+            # Checking the presence or absence of butters around the robot
+            if (robot_y + y, robot_x + x) not in state.butters:  #No butters were found around the robot
+                nexts.append((  #Save new action in "nexts"
+                    State((robot_y + y, robot_x + x), state.butters.copy()),    #Save new states. The butters remain in their previous position.
+                    (y, x),     #The initial state of the state is placed in index number 1
                     max(int(matrix[robot_y + y][robot_x + x]), int(matrix[robot_y][robot_x]))
                 ))
             else:  # There is a butter around
