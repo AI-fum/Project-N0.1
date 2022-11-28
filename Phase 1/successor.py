@@ -73,11 +73,11 @@ class State:
             if (robot_y + y, robot_x + x) not in state.butters:  #No butters were found around the robot
                 nexts.append((  #Save new action in "nexts"
                     State((robot_y + y, robot_x + x), state.butters.copy()),    #Save new states. The butters remain in their previous position.
-                    (y, x),     #The initial state of the state is placed in index number 1
-                    max(int(matrix[robot_y + y][robot_x + x]), int(matrix[robot_y][robot_x]))
+                    (y, x),                                                     #The initial state of the state is placed in index number 1
+                    max(int(matrix[robot_y + y][robot_x + x]), int(matrix[robot_y][robot_x])) #max cost...
                 ))
-            else:  # There is a butter around
-                # Butter not on bound condition
+            else:  #butters were found around the robot
+                #The robot cannot throw the butters out of the battlefield
                 if (y == -1 and robot_y != 1) or (y == 1 and robot_y != height - 2) or \
                         (x == -1 and robot_x != 1) or (x == 1 and robot_x != width - 2):
 
@@ -85,13 +85,13 @@ class State:
                     if (robot_y + y, robot_x + x) in points:
                         return
 
-                    # if there is block or another butter behind the butter
+                    #Do not enter the barrier, In addition, the butter cannot pass over an other butter.
                     y2 = robot_y + 2 * y
                     x2 = robot_x + 2 * x
                     if battlefield_object.is_block(y2, x2) or ((y2, x2) in state.butters):
                         return
 
-                    # Moving butter
+                    #Moving butter
                     new_butters = state.butters.copy()
                     new_butters.remove((robot_y + y, robot_x + x))
                     new_butters.append((y2, x2))
