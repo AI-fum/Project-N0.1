@@ -95,7 +95,7 @@ class State:
                     new_butters = state.butters.copy()
                     new_butters.remove((robot_y + y, robot_x + x))
                     new_butters.append((y2, x2))
-                    next_states.append((
+                    nexts.append((
                         State((robot_y + y, robot_x + x), new_butters),
                         (y, x),
                         max(int(matrix[robot_y + y][robot_x + x]), int(matrix[robot_y][robot_x]))
