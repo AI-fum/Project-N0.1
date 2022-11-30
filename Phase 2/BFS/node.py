@@ -75,3 +75,5 @@ class Node:
     # represent the class objects:
     def __str__(self):
         return 'State: ' + str(self.state) + ' | Cost: ' + str(self.get_cost())
+
+    
