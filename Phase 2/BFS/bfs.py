@@ -2,7 +2,8 @@ from battlefield import Battlefield
 from successor import State
 from node import Node
 
-init_state = State  #initial state...
+battlefield: Battlefield
+init_state: State  #initial state...
 
 def bfs() -> Node:
   queue = [Node(init_state)]
@@ -15,7 +16,7 @@ def bfs() -> Node:
     if State.is_goal(current_node.state, self.map.points):
       return current_node
 
-    actions = State.successor(current_node.state, self.map)  # Add successors to queue
+    actions = State.successor(current_node.state, battlefield)  # Add successors to queue
       for child in current_node.expand(actions):
         if child.state not in vis:
           queue.append(child)
