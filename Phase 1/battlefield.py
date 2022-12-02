@@ -1,4 +1,3 @@
-# map.py
 class Battlefield:
     # map_array
     matrix: list[list[str]]
