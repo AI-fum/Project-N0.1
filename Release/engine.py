@@ -1,4 +1,5 @@
-from map import Map
+from battlefield import Battlefield
+
 from file_io import FileIO
 from constants import Consts
 from screen_manager import Display
@@ -10,14 +11,14 @@ import time
 
 class GameManager:
 
-    map: Map
+    battlefield: Battlefield
     init_state: State
     display: Display
 
     def __init__(self):
-        self.map, self.init_state = self.parse_map()
+        self.battlefield, self.init_state = self.parse_map()
         # After parsing map it's time to start pygame
-        self.display = Display(self.map)
+        self.display = Display(self.battlefield)
 
     def start_search(self, search_type: str) -> (list[State], int, int):
         """ Chooses a search between all and returns its result list.
@@ -60,10 +61,10 @@ class GameManager:
             node_1 = frontier.pop(0)
             visited[node_1.state] = node_1
 
-            if State.is_goal(node_1.state, self.map.points):
+            if State.is_goal(node_1.state, self.battlefield.points):
                 return node_1
 
-            actions = State.successor(node_1.state, self.map)  # Add successors to frontier
+            actions = State.successor(node_1.state, self.battlefield)  # Add successors to frontier
             for child in node_1.expand(actions):
                 if child.state not in visited:
                     frontier.append(child)
@@ -77,24 +78,24 @@ class GameManager:
             node_1 = frontier.pop(0)
             visited[node_1.state] = node_1
 
-            if State.is_goal(node_1.state, self.map.points):
+            if State.is_goal(node_1.state, self.battlefield.points):
                 return node_1
 
-            actions = State.successor(node_1.state, self.map)  # Add successors to frontier
+            actions = State.successor(node_1.state, self.battlefield)  # Add successors to frontier
             child = node_1.infiltrate(actions)
             if child.state not in visited:
                 frontier.append(child)         
                     
 
     @staticmethod
-    def parse_map() -> (Map, State):
+    def parse_map() -> (Battlefield, State):
         """ Uses map file to create map object in game.
             :returns The map object and the init state"""
 
         map_array = FileIO.read_line_by_line(Consts.MAP_FILE)
         sizes = map_array.pop(0)
         h, w = int(sizes[0]), int(sizes[1])
-        map_object = Map(h, w)
+        map_object = Battlefield(h, w)
 
         butters = []                                            # Variables to read from map
         points = []
