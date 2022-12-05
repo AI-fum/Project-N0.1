@@ -1,6 +1,6 @@
 from battlefield import Battlefield
 
-from file_io import FileIO
+from read import Read
 from constants import Consts
 from screen_manager import Display
 from state import State
@@ -92,7 +92,7 @@ class GameManager:
         """ Uses map file to create map object in game.
             :returns The map object and the init state"""
 
-        map_array = FileIO.read_line_by_line(Consts.MAP_FILE)
+        map_array = Read.read_line_by_line(Consts.MAP_FILE)
         sizes = map_array.pop(0)
         h, w = int(sizes[0]), int(sizes[1])
         map_object = Battlefield(h, w)
