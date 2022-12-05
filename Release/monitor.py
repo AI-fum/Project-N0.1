@@ -5,7 +5,7 @@ from battlefield import Battlefield
 from defaults import Defaults
 
 
-from state import State
+from successor import State
 
 
 class Display:
