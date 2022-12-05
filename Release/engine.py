@@ -1,11 +1,10 @@
 from battlefield import Battlefield
 from read import Read
 from defaults import Defaults
-
-from screen_manager import Display
-from state import State
+from monitor import Display
+from successor import State
 from node import Node
-from heap_hashtable import MinHeap
+from min_heap import MinHeap
 import time
 
 
