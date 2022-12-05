@@ -2,10 +2,9 @@ import pygame
 import threading
 import sys
 from battlefield import Battlefield
+from defaults import Defaults
 
 
-
-from constants import Consts
 from state import State
 
 
@@ -23,17 +22,17 @@ class Display:
 
         # PyGame part
         pygame.init()
-        sw, sh = Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT
+        sw, sh = Defaults.SCREEN_WIDTH, Defaults.SCREEN_HEIGHT
         self.screen = pygame.display.set_mode((sw, sh))
-        self.screen.fill(Consts.BACKGROUND)
+        self.screen.fill(Defaults.BACKGROUND)
 
         # Setting cell size and other sizes
         if w / h > sw / sh:
-            rect_width = sw - 2 * Consts.SCREEN_MARGIN_SIZE
+            rect_width = sw - 2 * Defaults.SCREEN_MARGIN_SIZE
             cell_size = int(rect_width / w)
             rect_height = cell_size * h
         else:
-            rect_height = sh - 2 * Consts.SCREEN_MARGIN_SIZE
+            rect_height = sh - 2 * Defaults.SCREEN_MARGIN_SIZE
             cell_size = int(rect_height / h)
             rect_width = cell_size * w
         self.cell_size = cell_size
@@ -44,13 +43,13 @@ class Display:
         self.display_thread = None
 
         # Loading images
-        self.butter_image = pygame.image.load(Consts.BUTTER_IMAGE)
+        self.butter_image = pygame.image.load(Defaults.BUTTER_IMAGE)
         self.butter_image = pygame.transform.scale(self.butter_image, (cell_size, cell_size))
-        self.robot_image = pygame.image.load(Consts.ROBOT_IMAGE)
+        self.robot_image = pygame.image.load(Defaults.ROBOT_IMAGE)
         self.robot_image = pygame.transform.scale(self.robot_image, (cell_size, cell_size))
-        self.x_image = pygame.image.load(Consts.X_IMAGE)
+        self.x_image = pygame.image.load(Defaults.X_IMAGE)
         self.x_image = pygame.transform.scale(self.x_image, (cell_size, cell_size))
-        self.mark_image = pygame.image.load(Consts.MARK_IMAGE)
+        self.mark_image = pygame.image.load(Defaults.MARK_IMAGE)
         self.mark_image = pygame.transform.scale(self.mark_image, (cell_size, cell_size))
 
         self.draw_cells()
@@ -67,7 +66,7 @@ class Display:
         pygame.display.update()
 
     def draw_cells(self):
-        sw, sh = Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT
+        sw, sh = Defaults.SCREEN_WIDTH, Defaults.SCREEN_HEIGHT
         w, h = self.w, self.h
         rect_width, rect_height = self.rect_width, self.rect_height
         cell_size = self.cell_size
@@ -80,9 +79,9 @@ class Display:
                 x = init_x + i * cell_size
                 y = init_y + j * cell_size
                 if self.map_array[j][i] == 'x':
-                    color = Consts.BLOCK_COLOR
+                    color = Defaults.BLOCK_COLOR
                 else:
-                    color = Display.darker(Consts.CELL_COLOR, int(self.map_array[j][i]))
+                    color = Display.darker(Defaults.CELL_COLOR, int(self.map_array[j][i]))
                 # Drawing Rectangles
                 pygame.draw.rect(self.screen, color, (x, y, cell_size, cell_size), 0)
                 pygame.draw.rect(self.screen, (0, 0, 0), (x, y, cell_size, cell_size), 1)
@@ -92,8 +91,8 @@ class Display:
             self.draw_in_position(p[0], p[1], self.x_image)
 
     def draw_in_position(self, y: int, x: int, image):
-        init_y = (Consts.SCREEN_HEIGHT - self.rect_height) / 2
-        init_x = (Consts.SCREEN_WIDTH - self.rect_width) / 2
+        init_y = (Defaults.SCREEN_HEIGHT - self.rect_height) / 2
+        init_x = (Defaults.SCREEN_WIDTH - self.rect_width) / 2
         pos_x = init_x + x * self.cell_size
         pos_y = init_y + y * self.cell_size
         self.screen.blit(image, (pos_x, pos_y))
@@ -109,7 +108,7 @@ class Display:
                         sys.exit(0)
 
                 pygame.display.update()
-                pygame.time.wait(int(1000/Consts.FPS))
+                pygame.time.wait(int(1000/Defaults.FPS))
 
         # Starting thread
         self.display_thread = threading.Thread(name='Display', target=infinite_loop)
