@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from game_manager import GameManager
+from engine import GameManager
 from playsound import playsound
 import sys
 
