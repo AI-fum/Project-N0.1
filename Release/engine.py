@@ -33,7 +33,7 @@ class GameManager:
             result_list = GameManager.extract_path_list(result)
             result_list.pop()
             result_list.reverse()
-            return result_list, result.depth, result.path_cost
+            return result_list, result.depth, result.get_cost
 
     def display_states(self, states_list: list[State]) -> None:
         """ Gets a list of states and displays it into display object.
