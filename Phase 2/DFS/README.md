@@ -5,6 +5,7 @@ This algorithm is called depth first search because we always prioritize searchi
 
 Consider our maze, and a DFS implementation that breaks ties by searching up first, then right, then left, then right. Our algorithm will go straight up until it hits a wall, then straight to the right to arrive at our end node.
 
+
 ```
 DFS(graph, start_node, end_node):
     frontier = new Stack()
