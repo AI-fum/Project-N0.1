@@ -1,6 +1,6 @@
 from battlefield import Battlefield
-
 from read import Read
+
 from constants import Consts
 from screen_manager import Display
 from state import State
