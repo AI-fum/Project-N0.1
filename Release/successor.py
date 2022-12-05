@@ -114,7 +114,7 @@ class State:
                     # Do not enter the barrier, In addition, the butter cannot pass over an other butter.
                     y2 = robot_y + 2 * y
                     x2 = robot_x + 2 * x
-                    if battlefield_object.is_block(y2, x2) or (
+                    if battlefield_object.is_barrier(y2, x2) or (
                         (y2, x2) in state.butters
                     ):
                         return
