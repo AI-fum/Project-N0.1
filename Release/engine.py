@@ -1,7 +1,7 @@
 from battlefield import Battlefield
 from read import Read
+from defaults import Defaults
 
-from constants import Consts
 from screen_manager import Display
 from state import State
 from node import Node
@@ -48,7 +48,7 @@ class GameManager:
         self.display.begin_display()
 
         for state in states_list:
-            time.sleep(Consts.STEP_TIME)
+            time.sleep(Defaults.STEP_TIME)
             self.display.update(state)
 
 
@@ -92,7 +92,7 @@ class GameManager:
         """ Uses map file to create map object in game.
             :returns The map object and the init state"""
 
-        map_array = Read.read_line_by_line(Consts.MAP_FILE)
+        map_array = Read.read_line_by_line(Defaults.MAP_FILE)
         sizes = map_array.pop(0)
         h, w = int(sizes[0]), int(sizes[1])
         map_object = Battlefield(h, w)
