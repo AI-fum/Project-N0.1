@@ -15,6 +15,10 @@ def __init__(self, height: int, width: int, matrix=[]):
   self.height = height
   self.points = []
 ```
+<p align="center">
+<img src="https://s6.uupload.ir/files/screenshot_from_2022-12-06_16-09-56_ze9r.png" alt="This will display an animated GIF" >
+</p>
+
 Let's skip the variables. The battlefield class consists of 5 functions except the constructor function. We can list these functions as below. In the following, we will explain the functions of these functions.
 - check_out()
 - is_barrier()
