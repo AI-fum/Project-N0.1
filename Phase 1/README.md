@@ -23,7 +23,7 @@ Let's skip the variables. The battlefield class consists of 5 functions except t
 - append_row()
 
 ### check_out
-As you know, none of the elements in project can't exite from the battlefield. As a result, we need a function to detect this issue. 'check_out' do it for us. This function has two iputs. Y and X coordinates. By entering these two variables, you can check the conditions of the existence of the element in the battlefield. For this purpose, the function returns the following statement to the program as an output.
+As you know, none of the elements in the project can't exit from the battlefield. As a result, we need a function to detect this issue. 'check_out' does it for us. This function has two inputs. Y and X coordinates. By entering these two variables, you can check the conditions of the existence of the element in the battlefield. For this purpose, the function returns the following statement to the program as an output.
 ```
 return x >= self.width or x < 0 or y >= self.height or y < 0
 ```
@@ -46,3 +46,4 @@ if len(row) != self.width:
   raise ValueError("Invalid size of columns in this row:\n", str(row))
 self.battlefield.append(row)
 ```
+
