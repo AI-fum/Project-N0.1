@@ -27,3 +27,22 @@ As you know, none of the elements in project can't exite from the battlefield. A
 ```
 return x >= self.width or x < 0 or y >= self.height or y < 0
 ```
+
+### is_barrier
+According to the form of the question, there are some barriers on the table(battlefield). None of the game elements can cross these barriers. We need a function to find these obstacles. The 'is_barrier' function is designed for this purpose. This function has the same function as 'check_out'. This function checks the existence of the letter x. Its function is as follows.
+```
+return self.battlefield[y][x].lower() == "x"
+```
+
+### set_points
+if you remember. Points were fixed elements on the battlefield. For this purpose, they were set as an empty list in the constructor function. Therefore, we need a function to value the points. This function is of void type and has no output. The single command of this function is very simple.
+```
+self.points = points
+```
+### append_row
+The get function is very simple. For this purpose, its explanation is omitted. But let's talk about 'append_row' functions. This function is designed to add battlefield rows. The only important point is to pay attention to the dimensions of the battlefield. For this purpose, we must check the condition 'len(row) != self.width' If the process is not a maze, the program will encounter an error.
+```
+if len(row) != self.width:
+  raise ValueError("Invalid size of columns in this row:\n", str(row))
+self.battlefield.append(row)
+```
