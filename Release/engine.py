@@ -26,14 +26,10 @@ class GameManager:
 
         result = self.__getattribute__(search_type + '_search')()
 
-        # Putting path to goal in list
-        if search_type in ['bd_bfs', 'reverse_bfs']:
-            return result
-        else:
-            result_list = GameManager.extract_path_list(result)
-            result_list.pop()
-            result_list.reverse()
-            return result_list, result.depth, result.get_cost
+        result_list = GameManager.extract_path_list(result)
+        #result_list.pop()
+        result_list.reverse()
+        return result_list, result.depth, result.get_cost
 
     def display_states(self, states_list: list[State]) -> None:
         """ Gets a list of states and displays it into display object.
@@ -49,57 +45,6 @@ class GameManager:
         for state in states_list:
             time.sleep(Defaults.STEP_TIME)
             self.display.update(state)
-            
-            
-            
-    def ids_search(self) -> Node:
-        """ Performs an iterative deepening search from initial state to goal.
-            :returns The node which contains goal state"""
-
-        def dls_search(limit: int, depth: int, node: Node) -> Node:         # Implementation of DLS to be used in IDS
-            """ This DLS implementation is used in IDS search.
-                :param limit: Maximum depth
-                :param depth: The explored depth until now
-                :param node: The node the expand next
-                :returns Node of goal if Goal state is found"""
-
-            if time.time() - cur_time > 60.0:
-                raise Exception('Time limit exceeded')
-
-            # display.update(node.state)
-            # time.sleep(0.08)
-
-            res = None
-            if depth < limit and node.state not in visited_states:
-                actions = State.successor(node.state, self.map)
-                # print(actions)
-                visited_states[node.state] = True
-                for child in node.expand(actions)[::-1]:
-
-                    if State.is_goal(child.state, self.map.points):
-                        return child
-
-                    r = dls_search(limit, depth + 1, child)         # Recursive calling
-                    if r is not None:
-                        res = r
-                        break
-
-                    # To avoid adding non-visited states into visited states list
-                    if child.state in visited_states:
-                        del visited_states[child.state]
-
-            return res
-
-        for i in range(Defaults.FIRST_K, Defaults.LAST_K):              # IDS Implementation
-            print('Starting with depth', i)
-            cur_time = time.time()
-            root_node = Node(self.init_state)
-            visited_states = {}
-            result = dls_search(i, 0, root_node)
-            if result is not None:
-                return result
-            
-            
             
     def a_star_search(self) -> Node:
             """ Performs an A* search from initial state to goal state.
@@ -126,7 +71,7 @@ class GameManager:
                 sum_of_distances = 0
                 for butter in state.butters:
                     min_d_to_point = float('inf')
-                    for point in self.map.points:
+                    for point in self.battlefield.points:
                         d = manhattan_distance(point, butter)
                         if d < min_d_to_point:
                             min_d_to_point = d
@@ -144,7 +89,7 @@ class GameManager:
                 node = heap.pop()
 
                 # Checking goal state
-                if State.is_goal(node.state, self.map.points):
+                if State.is_goal(node.state, self.battlefield.points):
                     return node
 
                 if node.state not in visited:
@@ -153,7 +98,7 @@ class GameManager:
                     continue
 
                 # A* search
-                actions = State.successor(node.state, self.map)
+                actions = State.successor(node.state, self.battlefield)
                 for child in node.expand(actions):
                     heap.add(child)
 
