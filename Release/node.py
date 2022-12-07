@@ -38,17 +38,17 @@ class Node:
         return children
     
     def infiltrate(self, actions: list[tuple[State, tuple, int]]) -> list['Node']:
-        next_child = []
+        children = []
         for act in actions:
             cost = self.cost + act[2]
             depth = self.depth + 1
             parent = self
             node = Node(act[0], act[1], depth, parent, cost) #it's new node...
-            next_child.append(node) 
-            
+            children.append(node) 
+
         self.confirm_expand = True
-        ans = next_child[0]
-        return ans
+        self.children.extend(children)
+        return children
       
    
     def equality(self, other: 'Node') -> bool:
