@@ -28,7 +28,7 @@ class MinHeap:
         del self.array[-1]
 
         if len(self.array) != 0:
-            self.min_heapify(icurr_ndex)
+            self.min_heapify(curr_index)
             self.min_up_heapify(curr_index)
 
     def modify(self, curr_vertex_id, new_value):
