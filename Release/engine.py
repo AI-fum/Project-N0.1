@@ -121,21 +121,20 @@ class GameManager:
                     frontier.append(child)
                     
     def dfs_search(self) -> Node:
-
         frontier = [Node(self.init_state)]
         visited = {}
 
         while len(frontier) > 0:  # Starting BFS loop
-            node_1 = frontier.pop(0)
+            node_1 = frontier.pop()
             visited[node_1.state] = node_1
 
             if State.is_goal(node_1.state, self.battlefield.points):
                 return node_1
 
             actions = State.successor(node_1.state, self.battlefield)  # Add successors to frontier
-            child = node_1.infiltrate(actions)
-            if child.state not in visited:
-                frontier.append(child)         
+            for child in node_1.expand(actions):
+                if child.state not in visited:
+                    frontier.append(child)       
                     
 
     @staticmethod
