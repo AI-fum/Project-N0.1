@@ -49,6 +49,61 @@ class GameManager:
         for state in states_list:
             time.sleep(Defaults.STEP_TIME)
             self.display.update(state)
+    def a_star_search(self) -> Node:
+            """ Performs an A* search from initial state to goal state.
+                :returns The node containing the goal state."""
+
+            def euclid_distance(point1: tuple[int, int], point2: tuple[int, int]) -> float:
+                """ Finds euclid distance between two points. """
+                return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2) ** 0.5
+
+            def manhattan_distance(point1: tuple[int, int], point2: tuple[int, int]) -> int:
+                """ Finds manhattan distance between to points. """
+                d1 = point1[0] - point2[0]
+                d2 = point1[1] - point2[1]
+                if d1 < 0:
+                    d1 *= -1
+                if d2 < 0:
+                    d2 *= -1
+                return d1 + d2
+
+            def heuristic(state: State) -> int:
+                """ The heuristic function which evaluates steps from a state to goal.
+                    :param state The state to evaluate."""
+
+                sum_of_distances = 0
+                for butter in state.butters:
+                    min_d_to_point = float('inf')
+                    for point in self.map.points:
+                        d = manhattan_distance(point, butter)
+                        if d < min_d_to_point:
+                            min_d_to_point = d
+                    sum_of_distances += min_d_to_point
+
+                return sum_of_distances
+
+            Node.heuristic = heuristic                                          # Setting all nodes heuristic functions
+
+            heap = MinHeap()                                                    # Beginning of a star search
+            visited = set()
+            root_node = Node(self.init_state)
+            heap.add(root_node)
+            while not heap.is_empty():
+                node = heap.pop()
+
+                # Checking goal state
+                if State.is_goal(node.state, self.map.points):
+                    return node
+
+                if node.state not in visited:
+                    visited.add(node.state)
+                else:
+                    continue
+
+                # A* search
+                actions = State.successor(node.state, self.map)
+                for child in node.expand(actions):
+                    heap.add(child)
 
 
     def bfs_search(self) -> Node:
