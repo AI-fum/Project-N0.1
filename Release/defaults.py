@@ -3,6 +3,9 @@ class Defaults:
     # Battlefield
     MAP_FILE = './battlefields/battlefield.txt'
 
+    #IDS
+    FIRST_K = 1
+    LAST_K = 50
     # Window
     # Size:
     SCREEN_WIDTH = 1200
