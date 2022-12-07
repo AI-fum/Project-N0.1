@@ -9,19 +9,19 @@ class MinHeap:
         for i in range(len(self.array) // 2).__reversed__():
             self.min_heapify(i)
         for curr_index, curr_vertex in enumerate(self.array):
-            self.index[curr_vertex.correspondenc()] = curr_index
+            self.index[curr_vertex.correspondence()] = curr_index
 
     def add(self, curr_vertex):
         curr_index = len(self.array)
         self.array.append(curr_vertex)
-        self.index[curr_vertex.correspondenc()] = curr_index
+        self.index[curr_vertex.correspondence()] = curr_index
         self.min_up_heapify(curr_index)
 
     def remove(self, curr_vertex_id=None, curr_index=None):
         if curr_index is None:
             curr_index = self.index[curr_vertex_id]
         last_item = self.array[-1]
-        self.index[last_item.correspondenc()] = curr_index
+        self.index[last_item.correspondence()] = curr_index
         self.array[curr_index] = last_item
 
         del self.index[curr_vertex_id]
@@ -39,7 +39,7 @@ class MinHeap:
 
     def pop(self):
         root = self.array[0]
-        self.remove(self.array[0].correspondenc(), 0)
+        self.remove(self.array[0].correspondence(), 0)
         return root
 
     def is_empty(self):
@@ -92,8 +92,8 @@ class MinHeap:
         self.array[i] = self.array[j]
         self.array[j] = temp
 
-        self.index[self.array[i].correspondenc()] = i
-        self.index[self.array[j].correspondenc()] = j
+        self.index[self.array[i].correspondence()] = i
+        self.index[self.array[j].correspondence()] = j
 
     def minimum(self, *curr_index):
         smallest = curr_index[0]
