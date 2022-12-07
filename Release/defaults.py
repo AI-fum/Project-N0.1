@@ -5,7 +5,8 @@ class Defaults:
 
     #IDS
     FIRST_K = 1
-    LAST_K = 50
+    LAST_K = 100
+    
     # Window
     # Size:
     SCREEN_WIDTH = 1200
