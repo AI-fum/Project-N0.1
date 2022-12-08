@@ -1,6 +1,5 @@
 from battlefield import Battlefield
 
-
 class State:
     # Constructor function:
     def __init__(self, robot: tuple, butters=[]):
