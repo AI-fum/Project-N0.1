@@ -9,6 +9,7 @@ Once you have defined this function, you can implement iterative deepening searc
 #### Sample implement
 
 ##### Code
+```
 def ids(start, goal, space):
     depth = 0
     while True:
@@ -16,5 +17,6 @@ def ids(start, goal, space):
         if result != None:
             return result
         depth += 1
+```
 
 This implementation of iterative deepening search will call the depth-first search function with increasing depth limits until a solution is found.
