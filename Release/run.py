@@ -8,7 +8,7 @@ def __main__():
     arg = sys.argv
     search_type = 'a_star'
     if len(arg) > 1:
-        if arg[1] in ['ids', 'a_star', 'bfs', 'dfs']:
+        if arg[1] in ['ids', 'a_star', 'bfs', 'dfs', 'ucs']:
             search_type = arg[1]
         else:
             print('\n\nInvalid algorithm!')
