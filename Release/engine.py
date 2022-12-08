@@ -26,14 +26,10 @@ class GameManager:
 
         result = self.__getattribute__(search_type + '_search')()
 
-        # Putting path to goal in list
-        if search_type in ['bd_bfs', 'reverse_bfs']:
-            return result
-        else:
-            result_list = GameManager.extract_path_list(result)
-            result_list.pop()
-            result_list.reverse()
-            return result_list, result.depth, result.get_cost
+        result_list = GameManager.extract_path_list(result)
+        #result_list.pop()
+        result_list.reverse()
+        return result_list, result.depth, result.get_cost
 
     def display_states(self, states_list: list[State]) -> None:
         """ Gets a list of states and displays it into display object.
@@ -49,6 +45,62 @@ class GameManager:
         for state in states_list:
             time.sleep(Defaults.STEP_TIME)
             self.display.update(state)
+            
+    def a_star_search(self) -> Node:
+            """ Performs an A* search from initial state to goal state.
+                :returns The node containing the goal state."""
+
+            def euclid_distance(point1: tuple[int, int], point2: tuple[int, int]) -> float:
+                """ Finds euclid distance between two points. """
+                return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2) ** 0.5
+
+            def manhattan_distance(point1: tuple[int, int], point2: tuple[int, int]) -> int:
+                """ Finds manhattan distance between to points. """
+                d1 = point1[0] - point2[0]
+                d2 = point1[1] - point2[1]
+                if d1 < 0:
+                    d1 *= -1
+                if d2 < 0:
+                    d2 *= -1
+                return d1 + d2
+
+            def heuristic(state: State) -> int:
+                """ The heuristic function which evaluates steps from a state to goal.
+                    :param state The state to evaluate."""
+
+                sum_of_distances = 0
+                for butter in state.butters:
+                    min_d_to_point = float('inf')
+                    for point in self.battlefield.points:
+                        d = manhattan_distance(point, butter)
+                        if d < min_d_to_point:
+                            min_d_to_point = d
+                    sum_of_distances += min_d_to_point
+
+                return sum_of_distances
+
+            Node.heuristic = heuristic                                          # Setting all nodes heuristic functions
+
+            heap = MinHeap()                                                    # Beginning of a star search
+            visited = set()
+            root_node = Node(self.init_state)
+            heap.add(root_node)
+            while not heap.is_empty():
+                node = heap.pop()
+
+                # Checking goal state
+                if State.is_goal(node.state, self.battlefield.points):
+                    return node
+
+                if node.state not in visited:
+                    visited.add(node.state)
+                else:
+                    continue
+
+                # A* search
+                actions = State.successor(node.state, self.battlefield)
+                for child in node.expand(actions):
+                    heap.add(child)
 
 
     def bfs_search(self) -> Node:
@@ -69,21 +121,20 @@ class GameManager:
                     frontier.append(child)
                     
     def dfs_search(self) -> Node:
-
         frontier = [Node(self.init_state)]
         visited = {}
 
         while len(frontier) > 0:  # Starting BFS loop
-            node_1 = frontier.pop(0)
+            node_1 = frontier.pop()
             visited[node_1.state] = node_1
 
             if State.is_goal(node_1.state, self.battlefield.points):
                 return node_1
 
             actions = State.successor(node_1.state, self.battlefield)  # Add successors to frontier
-            child = node_1.infiltrate(actions)
-            if child.state not in visited:
-                frontier.append(child)         
+            for child in node_1.expand(actions):
+                if child.state not in visited:
+                    frontier.append(child)       
                     
 
     @staticmethod
