@@ -25,7 +25,20 @@ def __init__(self, height: int, width: int, matrix=[]):
 <p align="center">
 <img src="https://s6.uupload.ir/files/screenshot_from_2022-12-06_16-09-56_ze9r.png" alt="This will display an animated GIF" >
 </p>
-                                                               
+Look at picture (2.1). If you remember, the Matrix was one of the elements of Battlefield. The matrix corresponding to the above figure is valued as follows.  
+```
+10 10
+1  1  1  x  1p x  1  1  2  1
+1  1  1  x  2  x  1  2  3  2
+1  1  1  x  3  x  1  1  2  1
+1  x  x  x  4  x  x  x  1  1
+1r 2  3  4  5  4  3  2  1  1
+1  x  x  x  4  x  x  x  1  1
+1  1  1  x  3  x  1  1  1  1
+1  2  1  x  2  x  1  1b 1  1
+2  3  2  x  1  x  1  1  1  1
+1  2  1  1  1  1  1  1  1  1
+```
 Let's skip the variables. The battlefield class consists of 5 functions except the constructor function. We can list these functions as below. In the following, we will explain the functions of these functions.
 - check_out()
 - is_barrier()
