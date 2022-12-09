@@ -1,1 +1,2 @@
 BFS
+BFS is a graph traversal algorithm which starts at the root node and searches the graph layer by layer. All nodes in this algorithm are either visited or not visited. BFS starts at the root node and marks it as visited. Visited nodes are saved in a queue. Then it goes to the root’s adjacent nodes that are not visited. It continues visiting adjacent nodes layer by layer until we reach the goal node. 
