@@ -55,14 +55,16 @@ class GameManager:
             return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2) ** 0.5
 
         def manhattan_distance(point1: tuple[int, int], point2: tuple[int, int]) -> int:
-            """Finds manhattan distance between to points."""
+            """Manhattan distance between to points."""
             d1 = point1[0] - point2[0]
             d2 = point1[1] - point2[1]
             if d1 < 0:
-                d1 *= -1
+                d1 = d1*(-1)
             if d2 < 0:
-                d2 *= -1
-            return d1 + d2
+                d2 = d2*(-1)
+            
+            manhattan_distance = d1 + d2
+            return manhattan_distance
 
         def heuristic(state: State) -> int:
             """The heuristic function which evaluates steps from a state to goal.
