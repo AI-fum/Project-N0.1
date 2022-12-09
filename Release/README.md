@@ -72,6 +72,45 @@ if len(row) != self.width:
 self.battlefield.append(row)
 ```
 
+## successor.py
+So far, we have gotten to know the battlefield environment well. Now we can examine successor in a little more detail. In the first step, we call an object of the Battlefield class in the successor file.
+```
+from battlefield import Battlefield
+```
+In the next step, we add a class named State in successor. This class must have two private variables. These two variables are the position of the robot and the position of the butters. In each movement, it is the states of the robot and the spheres that are moved(The butters may remain fixed in some actions. anyway, they are considered as moving variables). You may ask why the state related to barriers and points are not in this class? The answer is simple. There is no need to change the state of these variables during the program. As a result, we refrain from defining them in the State class.
+
+Let us implement the constructor and main functions of this class. We will use these functions in the following. We implement these functions as follows.
+```
+ # Constructor function:
+    def __init__(self, robot: tuple, butters=[]):
+        self.robot = robot
+        self.butters = butters
+
+    # Checking the equality of class elements:
+    def __eq__(self, other):
+        return self.butters == other.butters and self.robot == other.robot
+
+    # represent the class objects:
+    def __str__(self):
+        return (
+            '"The robot is located on: '
+            + str(self.robot)
+            + " The Butters is located on at: "
+            + str(self.butters)
+            + '"'
+        )
+
+    # return the object representation in string format:
+    def __repr__(self):
+        return self.__str__()
+
+    # values are used to compare the dictionary keys while doing a dictionary lookup:
+    def __hash__(self):
+        h = hash(self.robot)
+        for i in self.butters:
+            h += hash(i)
+        return h
+```
 
 <p align="center">
 <img src="https://s6.uupload.ir/files/screencast_from_22-12-09_10_14_28_gb5i.gif" alt="This will display an animated GIF" >
