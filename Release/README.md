@@ -58,3 +58,7 @@ if len(row) != self.width:
 self.battlefield.append(row)
 ```
 
+
+<p align="center">
+<img src="https://s6.uupload.ir/files/screencast_from_22-12-09_10_14_28_gb5i.gif" alt="This will display an animated GIF" >
+</p>
