@@ -63,3 +63,5 @@ self.battlefield.append(row)
 <img src="https://s6.uupload.ir/files/screencast_from_22-12-09_10_14_28_gb5i.gif" alt="This will display an animated GIF" >
 </p>
 https://s6.uupload.ir/files/screencast_from_22-12-09_10_14_28_gb5i.gif
+
+https://docs.google.com/document/d/1q89IFZxcHSv7rjiuSFFaRQ1p05bDQUwRhGDXWULdtF8/edit
