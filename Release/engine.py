@@ -50,10 +50,6 @@ class GameManager:
         """Performs an A* search from initial state to goal state.
         :returns The node containing the goal state."""
 
-        def euclid_distance(point1: tuple[int, int], point2: tuple[int, int]) -> float:
-            """Finds euclid distance between two points."""
-            return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2) ** 0.5
-
         def manhattan_distance(point1: tuple[int, int], point2: tuple[int, int]) -> int:
             """Finds manhattan distance between to points."""
             d1 = point1[0] - point2[0]
