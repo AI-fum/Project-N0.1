@@ -26,6 +26,7 @@ def __init__(self, height: int, width: int, matrix=[]):
 <img src="https://s6.uupload.ir/files/screenshot_from_2022-12-06_16-09-56_ze9r.png" alt="This will display an animated GIF" >
 </p>
 Look at picture (2.1). If you remember, the Matrix was one of the elements of Battlefield. The matrix corresponding to the above figure is valued as follows.  
+
 ```
 10 10
 1  1  1  x  1p x  1  1  2  1
