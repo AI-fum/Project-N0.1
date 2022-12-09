@@ -14,7 +14,7 @@ def bfs(self) -> Node:
         current_node = queue.pop(0)
         vis[current_node.state] = current_node
 
-        if State.is_goal(current_node.state, self.map.points):
+        if State.is_goal(current_node.state, self.battlefield.points):
             return current_node
 
         actions = State.successor(
