@@ -51,14 +51,16 @@ class GameManager:
         :returns The node containing the goal state."""
 
         def manhattan_distance(point1: tuple[int, int], point2: tuple[int, int]) -> int:
-            """Finds manhattan distance between to points."""
+            """Manhattan distance between to points."""
             d1 = point1[0] - point2[0]
             d2 = point1[1] - point2[1]
             if d1 < 0:
-                d1 *= -1
+                d1 = d1*(-1)
             if d2 < 0:
-                d2 *= -1
-            return d1 + d2
+                d2 = d2*(-1)
+            
+            manhattan_distance = d1 + d2
+            return manhattan_distance
 
         def heuristic(state: State) -> int:
             """The heuristic function which evaluates steps from a state to goal.
@@ -141,17 +143,22 @@ class GameManager:
         frontier = [Node(self.init_state)]
         visited = {}
 
-        while len(frontier) > 0:  # Starting BFS loop
+        while len(frontier) > 0:  # Starting DFS loop
             node_1 = frontier.pop()
             visited[node_1.state] = node_1
-
+            
+            # In case of equality, the work of the function is finished and node is returned.
             if State.is_goal(node_1.state, self.battlefield.points):
                 return node_1
-
+            
+            #Actions are equal to the output of the successor function. As a result, all future statuses are placed in actions.
             actions = State.successor(
                 node_1.state, self.battlefield
             )  # Add successors to frontier
-            for child in node_1.expand(actions):
+            
+            # these actions are converted into acceptable nodes for the children of node_1 by the expand function.
+            for child in node_1.expand(actions): 
+                # Avoid duplicate statuses
                 if child.state not in visited:
                     frontier.append(child)
 
