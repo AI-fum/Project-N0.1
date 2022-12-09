@@ -31,4 +31,4 @@ With the help of this function, the robot can check how close it is to the point
 
             return total_distance
 ```
-In next step, we must call the heuristic function for each node.
+In next step, we must call the heuristic function for each node. Before starting *A process, it is better to talk about MinHeap. Hash Function is a one-way function that should preferably be one-to-one; It means that for every x there is only one y. In general, we do not have a limit for hash functions. For this function we need to design a heap type data structure. In this data structure we will have the following functions.
