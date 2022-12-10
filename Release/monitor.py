@@ -43,6 +43,8 @@ class Display:
         self.display_thread = None
 
         # Loading images
+        
+        #shapes:
         self.butter_image = pygame.image.load(Defaults.BUTTER_IMAGE)
         self.butter_image = pygame.transform.scale(self.butter_image, (cell_size, cell_size))
         self.robot_image = pygame.image.load(Defaults.ROBOT_IMAGE)
@@ -51,6 +53,20 @@ class Display:
         self.x_image = pygame.transform.scale(self.x_image, (cell_size, cell_size))
         self.mark_image = pygame.image.load(Defaults.MARK_IMAGE)
         self.mark_image = pygame.transform.scale(self.mark_image, (cell_size, cell_size))
+        self.barrier_image = pygame.image.load(Defaults.BARRIER_IMAGE)
+        self.barrier_image = pygame.transform.scale(self.barrier_image, (cell_size, cell_size))
+        #numbers:
+        self.one_image = pygame.image.load(Defaults.ONE_IMAGE)
+        self.one_image = pygame.transform.scale(self.one_image, (cell_size, cell_size))
+        self.two_image = pygame.image.load(Defaults.TWO_IMAGE)
+        self.two_image = pygame.transform.scale(self.two_image, (cell_size, cell_size))
+        self.tree_image = pygame.image.load(Defaults.TREE_IMAGE)
+        self.tree_image = pygame.transform.scale(self.tree_image, (cell_size, cell_size))
+        self.four_image = pygame.image.load(Defaults.FOUR_IMAGE)
+        self.four_image = pygame.transform.scale(self.four_image, (cell_size, cell_size))
+        self.five_image = pygame.image.load(Defaults.FIVE_IMAGE)
+        self.five_image = pygame.transform.scale(self.five_image, (cell_size, cell_size))
+        
 
         self.draw_cells()
         pygame.display.update()
@@ -63,28 +79,57 @@ class Display:
             self.draw_in_position(butter[0], butter[1], self.butter_image)
         for mark in self.marks:
             self.draw_in_position(mark[0], mark[1], self.mark_image)
+            
+        
+        
         pygame.display.update()
+        
 
     def draw_cells(self):
         sw, sh = Defaults.SCREEN_WIDTH, Defaults.SCREEN_HEIGHT
         w, h = self.w, self.h
         rect_width, rect_height = self.rect_width, self.rect_height
         cell_size = self.cell_size
-
         # Drawing cells
         init_y = (sh - rect_height) / 2
         init_x = (sw - rect_width) / 2
+        
         for j in range(h):
             for i in range(w):
                 x = init_x + i * cell_size
                 y = init_y + j * cell_size
+                #print((i,j))
+                
+                
                 if self.map_array[j][i] == 'x':
                     color = Defaults.BLOCK_COLOR
                 else:
+                    #color = (0,0,0)
+                    self.draw_in_position(j, i, self.one_image)
                     color = Display.darker(Defaults.CELL_COLOR, int(self.map_array[j][i]))
+                    
+                    #print("HA")
+                    
+                    
+                    #print(self.map_array[j][i])
                 # Drawing Rectangles
                 pygame.draw.rect(self.screen, color, (x, y, cell_size, cell_size), 0)
                 pygame.draw.rect(self.screen, (0, 0, 0), (x, y, cell_size, cell_size), 1)
+                if self.map_array[j][i] == '1':
+                    self.draw_in_position(j, i, self.one_image)
+                if self.map_array[j][i] == '2':
+                    self.draw_in_position(j, i, self.two_image)
+                if self.map_array[j][i] == '3':
+                    self.draw_in_position(j, i, self.tree_image)
+                if self.map_array[j][i] == '4':
+                    self.draw_in_position(j, i, self.four_image)
+                if self.map_array[j][i] == '5':
+                    self.draw_in_position(j, i, self.five_image)
+                if self.map_array[j][i] == 'x':
+                    self.draw_in_position(j, i, self.barrier_image)
+                
+
+                
 
         # Drawing X Points
         for p in self.points:
