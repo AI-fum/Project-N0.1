@@ -32,16 +32,11 @@ class GameManager:
         return result_list, result.depth, result.get_cost
 
     def display_states(self, states_list: list[State]) -> None:
-        """Gets a list of states and displays it into display object.
-        :param states_list List of states to show"""
-
         if len(states_list) <= 0:
             print("There is no way")
             return
-
-        self.display.update(self.init_state)  # Starting display
+        self.display.update(self.init_state)  # display
         self.display.begin_display()
-
         for state in states_list:
             time.sleep(Defaults.STEP_TIME)
             self.display.update(state)
@@ -84,7 +79,7 @@ class GameManager:
                 d1 = d1*(-1)
             if d2 < 0:
                 d2 = d2*(-1)
-            
+         
             manhattan_distance = d1 + d2
             return manhattan_distance
 
@@ -99,25 +94,22 @@ class GameManager:
                 total_distance += min_distance
 
             return total_distance
-
-        Node.heuristic = heuristic  # Setting all nodes heuristic functions
-
-        heap = MinHeap()  # Beginning of a star search
+        # Setting all nodes heuristic functions
+        Node.heuristic = heuristic
+        # Beginning of a star search
+        heap = MinHeap()  
         visited = set()
         root_node = Node(self.init_state)
         heap.add(root_node)
         while not heap.is_empty():
             node = heap.pop()
-
             # Checking goal state
             if State.is_goal(node.state, self.battlefield.points):
                 return node
-
             if node.state not in visited:
                 visited.add(node.state)
             else:
                 continue
-
             # A* search
             actions = State.successor(node.state, self.battlefield)
             for child in node.expand(actions):
@@ -217,16 +209,12 @@ class GameManager:
 
     @staticmethod
     def extract_path_list(node: Node) -> list[State]:
-        """Gets a node and returns a list of states which contains all states from root to the node.
-        :param node The node to get its path
-        :returns The list of all states from root to the node"""
-
         result_list = []
         watchdog = 0
         while node is not None:
             watchdog += 1
             if watchdog > 1000:
-                raise Exception("Watchdog limit exceeded")
+                raise Exception("LIMITED!")
             result_list.append(node.state)
             node = node.parent
 
