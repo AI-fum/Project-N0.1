@@ -1,4 +1,4 @@
-    def a_star_search(self) -> Node:
+def a_star_search(self) -> Node:
         def manhattan_distance(point1: tuple[int, int], point2: tuple[int, int]) -> int:
             d1 = point1[0] - point2[0]
             d2 = point1[1] - point2[1]
