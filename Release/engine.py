@@ -126,8 +126,8 @@ class GameManager:
     def ucs_search(self) -> Node:
         heap = MinHeap()
         visited = set()
-        root_node = Node(self.init_state)
-        heap.add(root_node)
+        source_node = Node(self.init_state)
+        heap.add(source_node)
         while not heap.is_empty():
             node = heap.pop()
 
