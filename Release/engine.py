@@ -45,13 +45,39 @@ class GameManager:
         for state in states_list:
             time.sleep(Defaults.STEP_TIME)
             self.display.update(state)
+            
+            
+            
+    def ids_search(self) -> Node:
+        def dls_search(limit: int, depth: int, node: Node) -> Node:
+            if time.time() - cur_time > 60.0:
+                raise Exception('Time limit. Mission failed!')
+            res = None
+            if depth < limit and node.state not in visited_states:
+                actions = State.successor(node.state, self.battlefield)
+                visited_states[node.state] = True
+                for child in node.expand(actions)[::-1]:
+                    if State.is_goal(child.state, self.battlefield.points):
+                        return child
+                    r = dls_search(limit, depth + 1, child)
+                    if r is not None:
+                        res = r
+                        break
+                    if child.state in visited_states:
+                        del visited_states[child.state]
+            return res
+        for i in range(Defaults.FIRST_K, Defaults.LAST_K):
+            print('Starting depth: ', i)
+            cur_time = time.time()
+            root_node = Node(self.init_state)
+            visited_states = {}
+            result = dls_search(i, 0, root_node)
+            if result is not None:
+                return result
+            
 
     def a_star_search(self) -> Node:
-        """Performs an A* search from initial state to goal state.
-        :returns The node containing the goal state."""
-
         def manhattan_distance(point1: tuple[int, int], point2: tuple[int, int]) -> int:
-            """Manhattan distance between to points."""
             d1 = point1[0] - point2[0]
             d2 = point1[1] - point2[1]
             if d1 < 0:
@@ -63,19 +89,16 @@ class GameManager:
             return manhattan_distance
 
         def heuristic(state: State) -> int:
-            """The heuristic function which evaluates steps from a state to goal.
-            :param state The state to evaluate."""
-
-            sum_of_distances = 0
+            total_distance = 0
             for butter in state.butters:
-                min_d_to_point = float("inf")
+                min_distance = float("inf")
                 for point in self.battlefield.points:
-                    d = manhattan_distance(point, butter)
-                    if d < min_d_to_point:
-                        min_d_to_point = d
-                sum_of_distances += min_d_to_point
+                    curr_distance = manhattan_distance(point, butter)
+                    if curr_distance < min_distance:
+                        min_distance = curr_distance
+                total_distance += min_distance
 
-            return sum_of_distances
+            return total_distance
 
         Node.heuristic = heuristic  # Setting all nodes heuristic functions
 
