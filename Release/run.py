@@ -18,17 +18,14 @@ def __main__():
     result, depth, cost = game_manager.start_search(search_type)
 
     # Printing outputs
-    """
     directions = {(1, 0): 'Down', (-1, 0): 'Up', (0, 1): 'Right', (0, -1): 'Left'}
     p1 = game_manager.init_state.robot
     for i in range(len(result)):
         p2 = result[i].robot
         print(directions[(p2[0]-p1[0], p2[1]-p1[1])], end='')
-        # print(p2, p1, (p2[0]-p1[0], p2[1]-p1[1]))
         p1 = result[i].robot
-    print('\nTotal moves:', depth)
-    print('Total cost:', cost)
-    """
+    print('\n moves:', depth)
+    print('cost:', cost)
     game_manager.display_states(result)
     #playsound('Shamaizadeh-Bishtar-o-Bishtar.mp3')
     
